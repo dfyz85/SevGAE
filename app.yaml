@@ -1,0 +1,30 @@
+application: sevgae
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /mytemplate
+  static_dir: mytemplate
+  
+- url: /mycss
+  static_dir: mycss
+
+- url: /myimg
+  static_dir: myimg
+
+- url: /myjs
+  static_dir: myjs  
+  
+- url: /
+  script: scriptmain.py
+  
+- url: /ivan
+  script: crazyivan.py
+    
+- url: /create
+  script: crazyivan.py
+  
+- url: /admin/.*
+  script: $PYTHON_LIB/google/appengine/ext/admin
+  login: admin
