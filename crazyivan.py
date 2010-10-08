@@ -3,16 +3,11 @@ import os
 import datetime
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
+from google.appengine.ext import db
 from google.appengine.api import users
 from google.appengine.ext.webapp import template
-from google.appengine.ext import db
-from google.appengine.api import  memcache
+from bdsourge import NewsDB
 
-class NewsDB(db.Model):
-    user = db.UserProperty()
-    date = db.DateTimeProperty(auto_now_add=True)
-    title = db.StringProperty()
-    text = db.TextProperty()
     
 class Main(webapp.RequestHandler):
     def get(self):
@@ -22,6 +17,7 @@ class Main(webapp.RequestHandler):
         self.response.out.write(template.render(path, template_values))
     def post(self):
         paper = NewsDB()
+                           
         if users.get_current_user():
             paper.user = users.get_current_user()
         else:
@@ -46,15 +42,8 @@ class NewsCreator(webapp.RequestHandler):
         paper.put()
         self.redirect('/admin')
 """
-class Coment():            
-    def post(self):
-        pass   
-class News():
-    def get(self):
-        pass
-       
-application = webapp.WSGIApplication([('/ivan',Main),
-                                      ('/create', NewsCreator),                                                                                                       
+    
+application = webapp.WSGIApplication([('/ivan',Main),                                                                                                                                      
                                       ],
                                        debug=True)
 
